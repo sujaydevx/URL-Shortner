@@ -26,4 +26,13 @@ public class Url {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    @Column(name = "click_count", nullable = false)
+    private Long clickCount = 0L; // postgres will show null issue that is the reason the 0L is added.
+
+    @Column(name = "last_accessed_at")
+    private LocalDateTime lastAccessedAt;
+
+    @Column(name = "expires_at")
+    private LocalDateTime expiresAt;
+
 }

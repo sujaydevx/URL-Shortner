@@ -8,6 +8,7 @@ public record ShortenUrlResponse(
         String originalUrl,
         String shortCode,
         String shortUrl,
+        LocalDateTime expiresAt,
         LocalDateTime createdAt
 
 ) {
