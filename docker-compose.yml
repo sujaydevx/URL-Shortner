@@ -19,5 +19,14 @@ services:
       timeout: 5s
       retries: 5
 
+  redis:
+    image: redis:8-alpine
+    container_name: url-shortener-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
 volumes:
   postgres-data:
+  redis-data:
