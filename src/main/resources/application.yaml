@@ -19,5 +19,24 @@ spring:
       port: 6379
       timeout: 2000ms
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+
+  endpoint:
+    health:
+      show-details: always
+
+  metrics:
+    tags:
+      application: url-shortener
+
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
 app:
   base-url: http://localhost:8080/api/v1/urls/

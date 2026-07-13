@@ -2,6 +2,7 @@ package com.sujay.urlshortener.service.impl;
 
 import com.sujay.urlshortener.Config.AppProperties;
 import com.sujay.urlshortener.entity.Url;
+import com.sujay.urlshortener.metrics.MetricsService;
 import com.sujay.urlshortener.repository.UrlRepository;
 import com.sujay.urlshortener.service.CleanupService;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +19,12 @@ public class CleanupServiceImpl implements CleanupService {
 
     private final UrlRepository urlRepository;
     private final AppProperties appProperties;
+    private final MetricsService metricsService;
 
     @Override
     public void deleteExpiredUrls() {
-
+        // no  of autocleanups that has happend in the db
+        metricsService.incrementSchedulerCleanup();
         List<Url> expiredUrls =
                 urlRepository.findByExpiresAtIsNotNullAndExpiresAtBefore(LocalDateTime.now());
 
