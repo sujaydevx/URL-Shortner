@@ -1,17 +1,44 @@
-import http from 'k6/http';
-import { check } from 'k6';
+import http from "k6/http";
+import { check } from "k6";
+import { SharedArray } from "k6/data";
 
 export const options = {
     vus: 100,
-    duration: '30s',
+    duration: "30s",
 };
 
-const SHORT_CODE = "9Yc";
+const shortCodes = new SharedArray("urls", function () {
+    return JSON.parse(open("./urls.json"));
+});
+
+const BASE_URL = "http://localhost:8080/api/v1/urls";
+
+const HOT_PERCENTAGE = 0.20;
+
+const hotUrls = shortCodes.slice(
+    0,
+    Math.floor(shortCodes.length * HOT_PERCENTAGE)
+);
+
+const coldUrls = shortCodes.slice(
+    Math.floor(shortCodes.length * HOT_PERCENTAGE)
+);
 
 export default function () {
 
+    let selectedArray;
+
+    if (Math.random() < 0.80) {
+        selectedArray = hotUrls;
+    } else {
+        selectedArray = coldUrls;
+    }
+
+    const shortCode =
+        selectedArray[Math.floor(Math.random() * selectedArray.length)];
+
     const response = http.get(
-        `http://localhost:8080/api/v1/urls/${SHORT_CODE}`,
+        `${BASE_URL}/${shortCode}`,
         {
             redirects: 0
         }

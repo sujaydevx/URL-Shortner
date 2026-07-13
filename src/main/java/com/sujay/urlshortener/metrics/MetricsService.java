@@ -13,6 +13,9 @@ public class MetricsService {
     private final Counter cacheMissCounter;
     private final Counter expiredUrlCounter;
     private final Counter schedulerCleanupCounter;
+    private final Counter databaseReadCounter;
+    private final Counter databaseWriteCounter;
+
 
     public MetricsService(MeterRegistry meterRegistry) {
 
@@ -39,6 +42,14 @@ public class MetricsService {
         this.schedulerCleanupCounter = Counter.builder("scheduler_cleanup_total")
                 .description("Scheduler Cleanup Runs")
                 .register(meterRegistry);
+
+        this.databaseReadCounter = Counter.builder("url_db_read_total")
+                .description("Total PostgreSQL Reads")
+                .register(meterRegistry);
+
+        this.databaseWriteCounter = Counter.builder("url_db_write_total")
+                .description("Total PostgreSQL Writes")
+                .register(meterRegistry);
     }
 
     public void incrementUrlCreated() {
@@ -63,5 +74,21 @@ public class MetricsService {
 
     public void incrementSchedulerCleanup() {
         schedulerCleanupCounter.increment();
+    }
+
+    public void incrementDatabaseRead() {
+        databaseReadCounter.increment();
+    }
+
+    public void incrementDatabaseWrite() {
+        databaseWriteCounter.increment();
+    }
+
+    public double getCacheHitCount() {
+        return cacheHitCounter.count();
+    }
+
+    public double getCacheMissCount() {
+        return cacheMissCounter.count();
     }
 }

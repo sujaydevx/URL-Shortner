@@ -48,10 +48,13 @@ public class UrlServiceImpl implements UrlService {
                 .expiresAt(expiresAt)
                 .build();
 
+        metricsService.incrementDatabaseWrite();
         Url savedUrl = urlRepository.save(url);
 
         String shortCode = Base62Encoder.encode(savedUrl.getId());
         savedUrl.setShortCode(shortCode);
+        // this is not required to doit twice
+        metricsService.incrementDatabaseWrite();
         savedUrl = urlRepository.save(savedUrl);
 
         // Cache immediately
@@ -80,7 +83,7 @@ public class UrlServiceImpl implements UrlService {
 
     @Override
     public UrlStatsResponse getStats(String shortCode) {
-
+        metricsService.incrementDatabaseRead();
         Url url = urlRepository.findByShortCode(shortCode)
                 .orElseThrow(() ->
                         new ShortUrlNotFoundException(shortCode));
@@ -125,7 +128,7 @@ public class UrlServiceImpl implements UrlService {
         }
 
         metricsService.incrementCacheMiss();
-
+        metricsService.incrementDatabaseRead();
         Url url = urlRepository.findByShortCode(shortCode)
                 .orElseThrow(() ->
                         new ShortUrlNotFoundException(shortCode));
