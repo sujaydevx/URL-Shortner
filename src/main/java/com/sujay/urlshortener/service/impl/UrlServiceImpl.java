@@ -70,7 +70,7 @@ public class UrlServiceImpl implements UrlService {
         metricsService.incrementUrlCreated();
 
         String shortUrl = appProperties.getBaseUrl() + shortCode;
-
+        System.out.println(appProperties.getBaseUrl());
         return new ShortenUrlResponse(
                 savedUrl.getId(),
                 savedUrl.getOriginalUrl(),

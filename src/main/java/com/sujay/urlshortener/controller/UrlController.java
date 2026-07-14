@@ -18,7 +18,7 @@ import java.net.URI;
 
 @Tag(name = "URL APIs", description = "Operations for shortening and redirecting URLs")
 @RestController
-@RequestMapping("/api/v1/urls")
+@RequestMapping("/u")
 @RequiredArgsConstructor
 public class UrlController {
 
