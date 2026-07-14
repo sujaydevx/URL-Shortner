@@ -27,6 +27,7 @@ public class Url {
     private LocalDateTime createdAt;
 
     @Column(name = "click_count", nullable = false)
+    @Builder.Default
     private Long clickCount = 0L; // postgres will show null issue that is the reason the 0L is added.
 
     @Column(name = "last_accessed_at")

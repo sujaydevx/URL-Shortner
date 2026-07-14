@@ -39,4 +39,4 @@ management:
         enabled: true
 
 app:
-  base-url: http://localhost:8080/api/v1/urls/
+  base-url: http://54.224.41.73/
