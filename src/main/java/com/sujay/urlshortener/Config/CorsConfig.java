@@ -1,4 +1,4 @@
-package com.sujay.urlshortener.config;
+package com.sujay.urlshortener.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
