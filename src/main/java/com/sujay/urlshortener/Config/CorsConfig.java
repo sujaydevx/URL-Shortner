@@ -15,8 +15,8 @@ public class CorsConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/u/**")
                         .allowedOrigins(
-                                "http://localhost:5173",              // local dev
-                                "https://your-vercel-app.vercel.app"  // replace with your real deployed domain
+                                "http://localhost:5173",
+                                "https://url-shortener-frontend-smoky.vercel.app"
                         )
                         .allowedMethods("GET", "POST", "OPTIONS")
                         .allowedHeaders("*");
