@@ -14,8 +14,8 @@ import com.sujay.urlshortener.metrics.MetricsService;
 import com.sujay.urlshortener.repository.UrlRepository;
 import com.sujay.urlshortener.service.CleanupService;
 import com.sujay.urlshortener.service.UrlService;
-import com.sujay.urlshortener.util.Base62Encoder;
 import com.sujay.urlshortener.util.ExpiryCalculator;
+import com.sujay.urlshortener.util.SqidsEncoder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +33,7 @@ public class UrlServiceImpl implements UrlService {
     private final RedisCacheService redisCacheService;
     private final MetricsService metricsService;
     private final AnalyticsCacheService analyticsCacheService;
+    private final SqidsEncoder sqidsEncoder;
 
     @Override
     public ShortenUrlResponse shortenUrl(ShortenUrlRequest request) {
@@ -51,7 +52,7 @@ public class UrlServiceImpl implements UrlService {
         metricsService.incrementDatabaseWrite();
         Url savedUrl = urlRepository.save(url);
 
-        String shortCode = Base62Encoder.encode(savedUrl.getId());
+        String shortCode = sqidsEncoder.encode(savedUrl.getId());
         savedUrl.setShortCode(shortCode);
         // this is not required to doit twice
         metricsService.incrementDatabaseWrite();
