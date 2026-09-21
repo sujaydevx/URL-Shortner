@@ -1,33 +1,33 @@
-import http from 'k6/http';
-
-import { check } from 'k6';
+import http from "k6/http";
+import { check } from "k6";
 
 export const options = {
     vus: 100,
-    duration: '30s',
+    duration: "30s",
 };
+
+const BASE_URL = "http://localhost:8080/u";
 
 export default function () {
 
     const payload = JSON.stringify({
         originalUrl: "https://youtube.com",
-        expiryOption: "SEVEN_DAYS"
+        expiryOption: "SEVEN_DAYS",
     });
 
     const params = {
         headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
         },
     };
 
-    const res = http.post(
-        'http://localhost:8080/api/v1/urls',
+    const response = http.post(
+        BASE_URL,
         payload,
         params
     );
 
-    check(res, {
-        'status is 201': (r) => r.status === 201,
+    check(response, {
+        "status is 201": (r) => r.status === 201,
     });
-
 }

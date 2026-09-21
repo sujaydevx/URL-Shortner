@@ -11,7 +11,7 @@ const shortCodes = new SharedArray("urls", function () {
     return JSON.parse(open("./urls.json"));
 });
 
-const BASE_URL = "http://localhost:8080/api/v1/urls";
+const BASE_URL = "http://localhost:8080/u";
 
 const HOT_PERCENTAGE = 0.20;
 
@@ -26,13 +26,8 @@ const coldUrls = shortCodes.slice(
 
 export default function () {
 
-    let selectedArray;
-
-    if (Math.random() < 0.80) {
-        selectedArray = hotUrls;
-    } else {
-        selectedArray = coldUrls;
-    }
+    const selectedArray =
+        Math.random() < 0.80 ? hotUrls : coldUrls;
 
     const shortCode =
         selectedArray[Math.floor(Math.random() * selectedArray.length)];
@@ -40,7 +35,7 @@ export default function () {
     const response = http.get(
         `${BASE_URL}/${shortCode}`,
         {
-            redirects: 0
+            redirects: 0,
         }
     );
 
